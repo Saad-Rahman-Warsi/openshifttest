@@ -1,18 +1,10 @@
-FROM node:13-alpine
+FROM node:19-alpine
 
-ENV MONGO_DB_USERNAME=admin \
-    MONGO_DB_PWD=password
+COPY package.json /app/
+COPY . /app/
 
-RUN mkdir -p /home/app
+WORKDIR /app
 
-COPY ./app /home/app
+RUN npm install 
 
-# set default dir so that next commands executes in /home/app dir
-WORKDIR /home/app
-
-# will execute npm install in /home/app because of WORKDIR
-RUN npm install
-
-# no need for /home/app/server.js because of WORKDIR
-CMD ["node", "server.js"]
-
+CMD ["node","service.js"]
